@@ -44,6 +44,17 @@ npm run dev                     # http://localhost:5173
 
 The Vite dev server proxies `/api` and `/samples` to the backend on port 8000.
 
+## Deploying the frontend to GitHub Pages
+
+GitHub Pages only hosts static files, so only the React frontend goes there. The FastAPI backend must run
+somewhere else (for example a Hugging Face Space with Docker, Render or Railway).
+
+1. Push to `main` and enable **Settings > Pages > Source: GitHub Actions**.
+2. Add a repository **variable** `VITE_API_BASE` (Settings > Secrets and variables > Actions > Variables)
+   with your backend URL, e.g. `https://your-space.hf.space`.
+3. `.github/workflows/pages.yml` builds `frontend/` and publishes it. The site uses hash routes
+   (`/#/lab/3`) and ships the sample images itself, so only the lab processing needs the backend.
+
 ## Project layout
 
 ```

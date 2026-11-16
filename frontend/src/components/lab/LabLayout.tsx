@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import type { LabMeta } from '../../data/labs'
 import { useLabProgress } from '../../hooks/useLabProgress'
 import LabHeader from './LabHeader'
@@ -28,7 +28,9 @@ export default function LabLayout({ lab, render, sharedImage = true, runLabels, 
   const firstOpen = lab.steps.find((s) => !isDone(lab.n, s.id))?.id ?? lab.steps[lab.steps.length - 1].id
   const [current, setCurrent] = useState(firstOpen)
 
-  useEffect(() => { if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView() }, [])
+  // "Continue" links use ?step=<id> (the URL hash is owned by HashRouter)
+  const [params] = useSearchParams()
+  useEffect(() => { const s = params.get('step'); if (s) document.getElementById(s)?.scrollIntoView() }, [params])
   // Advance the highlighted step when the current one is completed
   useEffect(() => { setCurrent(firstOpen) }, [firstOpen])
 

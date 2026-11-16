@@ -5,5 +5,5 @@ import { useLabProgress } from '../../hooks/useLabProgress'
 export default function ContinueButton() {
   const { next, totalDone } = useLabProgress()
   if (!next || totalDone === 0) return null
-  return <Link to={`/lab/${next.lab}#${next.step}`} className="btn">Continue · Lab {next.lab} →</Link>
+  return <Link to={`/lab/${next.lab}?step=${next.step}`} className="btn">Continue · Lab {next.lab} →</Link>
 }

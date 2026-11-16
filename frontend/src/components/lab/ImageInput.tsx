@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { SAMPLES } from '../../data/labs'
 import { urlToFile } from '../../api/client'
+import { sampleUrl } from '../../api/base'
 import { useWebcam } from '../../hooks/useWebcam'
 
 interface Props { file: File | null; onChange: (f: File) => void; label?: string; compact?: boolean }
@@ -20,7 +21,7 @@ export default function ImageInput({ file, onChange, label = 'Image', compact }:
     setErr(null); onChange(f)
   }
   const sample = async (name: string) => {
-    try { setErr(null); onChange(await urlToFile(`/samples/${name}`, name)) } catch (e) { setErr((e as Error).message) }
+    try { setErr(null); onChange(await urlToFile(sampleUrl(name), name)) } catch (e) { setErr((e as Error).message) }
   }
   const capture = async () => {
     const blob = await webcam.grab('image/png', 1, 800)

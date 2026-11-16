@@ -1,4 +1,5 @@
 // Tiny fetch helpers shared by the per-lab API files.
+import { API_BASE } from './base'
 export type Params = Record<string, string | number | boolean | Blob | undefined>
 
 /** POST multipart/form-data and parse the JSON response (throws a readable Error). */
@@ -9,11 +10,11 @@ export async function post<T>(path: string, fields: Params, signal?: AbortSignal
     if (v instanceof Blob) form.append(k, v, (v as File).name || `${k}.png`)
     else form.append(k, String(v))
   }
-  return handle<T>(await fetch(path, { method: 'POST', body: form, signal }))
+  return handle<T>(await fetch(API_BASE + path, { method: 'POST', body: form, signal }))
 }
 
 export async function get<T>(path: string): Promise<T> {
-  return handle<T>(await fetch(path))
+  return handle<T>(await fetch(API_BASE + path))
 }
 
 async function handle<T>(res: Response): Promise<T> {
